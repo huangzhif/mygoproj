@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body {
+            font-size: 1.0em
+        }
+
+        body {
+            font-family: "微软雅黑";
+        }
+    </style>
+</head>
+<body>
+{{.Username}} 你好：<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;运维管理平台（堡垒机）账号【{{.Account}}】 将于 7 天后，即 {{.Disabledate}} 失效。<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;如需继续使用，请点击以下链接设置有效期，最大天数为180天。<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://{{.IP}}/users/personal-info">个人信息</a><br><br>
+
+<h4><span style="color:red">—— 系统邮件，请勿回复！——</span></h4>
+</body>
+</html>
