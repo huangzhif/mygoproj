@@ -1,9 +1,9 @@
 package getconfig
 
 import (
+	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"mygoproject/internal/logger"
 )
 
 func InitConfigure() *viper.Viper {
@@ -23,7 +23,7 @@ func InitConfigure() *viper.Viper {
 
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
-		logger.Info.Println("config file changed:", e.Name)
+		fmt.Println("config file changed:", e.Name)
 	})
 
 	return v

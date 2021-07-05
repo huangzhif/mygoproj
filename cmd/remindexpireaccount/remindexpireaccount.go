@@ -26,7 +26,12 @@ func Remindaccount() {
 		cc := config.Get("remindexpireaccount.cc").(string)
 		ip := config.Get("normal.ip").(string)
 		// 把 配置文件的抄送列表转化为切片
-		ccslice := strings.Split(cc,",")
+		var ccslice []string
+		if cc == "" {
+			ccslice = []string{}
+		} else {
+			ccslice = strings.Split(cc, ",")
+		}
 
 		for _, raw := range bl {
 
@@ -38,11 +43,16 @@ func Remindaccount() {
 			}{Username: raw["last_name"],
 				Account:     raw["username"],
 				Disabledate: raw["disabledate"],
-				IP:			 ip,
+				IP:          ip,
 			}
 
-			email.SendEmail([]string{raw["email"]}, ccslice, subject, temp, &stru)
-			logger.Info.Println("发送完成：",raw["email"])
+			err := email.SendEmail([]string{raw["email"]}, ccslice, subject, temp, &stru)
+			if err != nil {
+				logger.Error.Println("发送失败：", err, raw["email"])
+
+			} else {
+				logger.Info.Println("发送成功：", raw["email"])
+			}
 
 		}
 	} else {

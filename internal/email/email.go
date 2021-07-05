@@ -10,7 +10,7 @@ import (
 	"net/smtp"
 )
 
-func SendEmail(to []string, cc []string, subject string, temp string, stru interface{}) {
+func SendEmail(to []string, cc []string, subject string, temp string, stru interface{}) error {
 	/*
 		参数信息：
 		to : 发送对象
@@ -47,7 +47,5 @@ func SendEmail(to []string, cc []string, subject string, temp string, stru inter
 	t.Execute(body, &stru)
 	e.HTML = body.Bytes()
 	er := e.SendWithTLS(fmt.Sprintf("%v:%v", host, port), smtp.PlainAuth("", user, pwd, host), &tls.Config{ServerName: host})
-	if er != nil {
-		fmt.Println(er)
-	}
+	return er
 }
