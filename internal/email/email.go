@@ -14,6 +14,7 @@ func SendEmail(to []string, cc []string, subject string, temp string, stru inter
 	/*
 		参数信息：
 		to : 发送对象
+	    cc : 抄送对象
 		subject : 邮件主题
 		temp : 邮件模板地址
 		stru : 结构体 stru := struct {

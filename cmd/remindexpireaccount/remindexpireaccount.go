@@ -15,12 +15,14 @@ import (
 
 func Remindaccount() {
 	logger.Info.Println("开始执行")
-	var ab db.Database
-	ab = new(db.Mysql)
-	db := ab.Init()
-	bl, ok := ab.Query(db, "SELECT * FROM auth_user u LEFT JOIN t_profileUser p ON u.id = p.user_id WHERE u.is_active = 1 and datediff(p.disabledate,CURRENT_DATE ()) = 7")
+	config := getconfig.InitConfigure()
+	sql := config.Get("remindexpireaccount.sql").(string)
+	var idb db.Database
+	idb = new(db.Mysql)
+	thisdb := idb.Init()
+
+	ret, ok := idb.Query(thisdb, sql)
 	if ok {
-		config := getconfig.InitConfigure()
 		subject := config.Get("remindexpireaccount.subject").(string)
 		temp := config.Get("remindexpireaccount.temp").(string)
 		cc := config.Get("remindexpireaccount.cc").(string)
@@ -33,7 +35,7 @@ func Remindaccount() {
 			ccslice = strings.Split(cc, ",")
 		}
 
-		for _, raw := range bl {
+		for _, raw := range ret {
 
 			stru := struct {
 				Username    string
@@ -59,6 +61,6 @@ func Remindaccount() {
 		logger.Info.Println("没有找到数据")
 	}
 
-	db.Close()
+	defer thisdb.Close()
 
 }
